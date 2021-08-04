@@ -1,8 +1,6 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
 
 module.exports = {
-    mode: 'jit',
-
     purge: [
         './components/**/*.{vue,js}',
         './layouts/**/*.vue',
@@ -17,7 +15,7 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', ...fontFamily.sans],
+                sans: ['Work Sans', ...fontFamily.sans],
             },
         },
     },
