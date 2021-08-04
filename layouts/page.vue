@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-200 md:flex md:items-center md:justify-center min-h-screen">
+    <div class="antialiased bg-gray-800 flex items-center justify-center min-h-screen">
         <Nuxt />
     </div>
 </template>
