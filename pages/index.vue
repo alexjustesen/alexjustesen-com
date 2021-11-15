@@ -9,7 +9,7 @@
             <h2 class="text-4xl font-bold tracking-tight">Hello, I'm Alex</h2>
 
             <p class="text-lg font-medium text-gray-600">
-                I'm a web developer and enterprise architect at MassMutual, I also do freelance web development and projects on the side.
+                I'm a web developer and data engineer at MassMutual by day and a keeper of too many projects by night.
             </p>
         </header>
 
