@@ -15,7 +15,7 @@
 
         <div class="max-w-sm p-4 text-sm font-medium text-gray-600 bg-gray-200">
             <p>
-                If you're looking for my <span class="font-bold">Laravel CI/CD pipeline using Lasso and GitHub Actions</span> you can <a href="https://lasso-ci-cd.alexjustesen.com/" rel="nofollow" target="_blank" class="font-bold text-blue-500 hover:text-blue-400 whitespace-nowrap">click here</a>.
+                If you're looking for my <span class="font-bold">Laravel CI/CD pipeline using Lasso and GitHub Actions</span> you can <a href="https://dev.to/alexjustesen/laravel-cicd-pipeline-w-lasso-and-github-actions-53gm" rel="nofollow" target="_blank" class="font-bold text-blue-500 hover:text-blue-400 whitespace-nowrap">click here</a>.
             </p>
         </div>
 
