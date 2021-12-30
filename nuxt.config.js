@@ -19,11 +19,15 @@ export default {
             { rel: 'preconnect', href: 'https://fonts.googleapis.com'},
             { rel: 'preconnect', href: 'https://fonts.gstatic.com'},
             { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap'}
-        ]
+        ],
+        script: [
+            { src: 'https://cdn.usefathom.com/script.js', 'data-site': 'PGXVWVKB' },
+        ],
     },
 
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: [
+        '@/assets/css/main.css',
     ],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -35,8 +39,7 @@ export default {
 
     // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
     buildModules: [
-        // https://go.nuxtjs.dev/tailwindcss
-        '@nuxtjs/tailwindcss',
+        '@nuxt/postcss8'
     ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
@@ -45,11 +48,11 @@ export default {
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
-    },
-
-    tailwindcss: {
-        cssPath: '~/assets/css/tailwind.css',
-        configPath: '~/tailwind.config.js',
-        viewer: false
+        postcss: {
+            plugins: {
+                tailwindcss: {},
+                autoprefixer: {},
+            },
+        },
     }
 }
