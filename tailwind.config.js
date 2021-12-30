@@ -1,15 +1,13 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
 
 module.exports = {
-    purge: [
-        './components/**/*.{vue,js}',
-        './layouts/**/*.vue',
-        './pages/**/*.vue',
-        // './plugins/**/*.{js,ts}',
-        './nuxt.config.{js,ts}',
-      ],
-
-    darkMode: false, // or 'media' or 'class'
+    content: [
+        "./components/**/*.{js,vue,ts}",
+        "./layouts/**/*.vue",
+        "./pages/**/*.vue",
+        // "./plugins/**/*.{js,ts}",
+        "./nuxt.config.{js,ts}",
+    ],
 
     theme: {
         extend: {
@@ -19,12 +17,5 @@ module.exports = {
         },
     },
 
-    variants: {
-        extend: {},
-    },
-
-    plugins: [
-        require('@tailwindcss/aspect-ratio'),
-        require('@tailwindcss/forms'),
-    ],
+    plugins: [],
 }
