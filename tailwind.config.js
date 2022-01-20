@@ -1,15 +1,11 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
 
 module.exports = {
-    content: [
-        "./components/**/*.{js,vue,ts}",
-        "./layouts/**/*.vue",
-        "./pages/**/*.vue",
-        // "./plugins/**/*.{js,ts}",
-        "./nuxt.config.{js,ts}",
-    ],
+	content: [
+		'./src/**/*.{astro,html,js,jsx,svelte,ts,tsx,vue}'
+	],
 
-    theme: {
+	theme: {
         extend: {
             fontFamily: {
                 sans: ['Work Sans', ...fontFamily.sans],
@@ -18,4 +14,4 @@ module.exports = {
     },
 
     plugins: [],
-}
+};
