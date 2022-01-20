@@ -52,11 +52,11 @@ const articles = await response.json();
 			</div>
 
 			<div class="md:mx-auto md:max-w-sm">
-				<h3 class="text-lg font-medium tracking-tight text-gray-700">Latest article</h3>
+				<h2 class="text-lg font-medium tracking-tight text-gray-700">Latest article</h2>
 				<ul class="mt-2 space-y-2 text-sm text-gray-800">
 					{articles.map(item => (
 						<li>
-							<a href="{item.url}" class="relative block underline transition duration-300 ease-in-out group hover:text-blue-600">
+							<a href={item.url} rel="noreferrer" target="_blank" class="relative block underline transition duration-300 ease-in-out group hover:text-blue-600">
 								<span class="inline-block mr-2 text-xs text-gray-400 transition duration-300 ease-in-out md:mr-0 md:absolute md:-left-6 group-hover:text-gray-600 md:block">
 									<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 										<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
