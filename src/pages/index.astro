@@ -1,8 +1,6 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
 import ProfileCard from '../components/ProfileCard.astro'
-import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
@@ -16,26 +14,26 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		<!-- <Header title={SITE_TITLE} /> -->
 
 		<!-- 3 column wrapper -->
-		<div class="min-h-full mx-auto max-w-7xl grow lg:flex xl:px-2">
+		<div class="min-h-full mx-auto max-w-7xl grow lg:flex">
 			<!-- Left sidebar & main wrapper -->
 			<div class="flex-1 xl:flex">
-				<div class="px-4 py-6 border-b border-gray-200 sm:px-6 lg:pl-8 xl:w-80 xl:shrink-0 xl:border-b-0 xl:border-r xl:pl-6">
+				<div class="p-6 border-b border-gray-200 xl:w-80 xl:shrink-0 xl:border-b-0 xl:border-r">
 					<ProfileCard />
 				</div>
 
-				<div class="px-4 py-6 sm:px-6 lg:pl-8 xl:flex-1 xl:pl-6">
-					<div class="border-b border-gray-200 pb-5">
+				<div class="p-6 xl:flex-1">
+					<div class="pb-5 border-b border-gray-200">
 						<h2 class="text-lg font-semibold leading-6 text-gray-900">Posts</h2>
 					</div>
 
 					<div class="mt-8 space-y-16 sm:mt-12">
-						<article class="flex max-w-xl flex-col items-start justify-between hover:bg-gray-50 py-2 px-3 border border-transparent hover:border-gray-300 rounded-lg">
-							<div class="flex items-center gap-x-4 text-xs">
-								<time datetime="2023-06-14" class="text-gray-500">Jun 14, 2023</time>
+						<article class="flex flex-col items-start justify-between max-w-xl px-3 py-2 border border-transparent rounded-lg hover:bg-gray-50 hover:border-gray-300">
+							<div class="flex items-center text-xs gap-x-4">
+								<time datetime="2024-04-01" class="text-gray-500">Apr 1, 2024</time>
 								<a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Ramblings</a>
 							</div>
 
-							<div class="group relative">
+							<div class="relative group">
 								<h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
 									<a href="#">
 										<span class="absolute inset-0"></span>
@@ -43,9 +41,9 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 									</a>
 								</h3>
 
-								<div class="mt-5 prose max-w-none prose-sm">
+								<div class="mt-5 prose-sm prose max-w-none">
 									<p>Just getting things going with the new site, so this is just a placeholder for the upcoming blog section.</p>
-									<p>The first real blog post will probably be how I create this site using Astro and Appwrite as the CMS.</p>
+									<p>The first real blog post will probably be how I create this site using AstroJS.</p>
 								</div>
 							</div>
 						</article>
@@ -55,13 +53,13 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 				</div>
 			</div>
 
-			<div class="px-4 py-6 border-t border-gray-200 shrink-0 sm:px-6 lg:w-96 lg:border-l lg:border-t-0 lg:pr-8 xl:pr-6">
-				<div class="border-b border-gray-200 pb-5">
+			<div class="p-6 border-t border-gray-200 shrink-0 lg:w-96 lg:border-l lg:border-t-0">
+				<div class="pb-5 border-b border-gray-200">
 					<h2 class="text-lg font-semibold leading-6 text-gray-900">Projects</h2>
 				</div>
 
 				<ul role="list" class="divide-y divide-gray-100">
-					<li class="py-5 group relative">
+					<li class="relative py-5 group">
 						<div class="flex items-start gap-x-3">
 							<h3 class="text-sm font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
 								<a href="https://github.com/alexjustesen/speedtest-tracker" target="_blank" rel="nofollow">
@@ -73,25 +71,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 							<p class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">OSS</p>
 						</div>
 
-						<div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+						<div class="flex items-center mt-1 text-xs leading-5 text-gray-500 gap-x-2">
 							<p class="whitespace-nowrap">Self-hosted internet performance tracking application.</p>
-						</div>
-					</li>
-
-					<li class="py-5 group relative">
-						<div class="flex items-start gap-x-3">
-							<h3 class="text-sm font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-								<a href="https://draught.club/" target="_blank" rel="nofollow">
-									<span class="absolute inset-0"></span>
-									🍻 Draught Club
-								</a>
-							</h3>
-
-							<p class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-blue-700 bg-blue-50 ring-blue-600/20">SaaS</p>
-						</div>
-
-						<div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-							<p class="whitespace-nowrap">Organize public and private beer tastings.</p>
 						</div>
 					</li>
 				</ul>
