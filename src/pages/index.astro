@@ -1,123 +1,84 @@
 ---
-// src/pages/index.astro
-import BaseLayout from '../layouts/BaseLayout.astro'
-
-import ArticleComponent from '../components/ArticleComponent.astro'
-
-const response = await fetch('https://dev.to/api/articles?username=alexjustesen&per_page=1');
-const articles = await response.json();
+import BaseHead from '../components/BaseHead.astro';
+import ProfileCard from '../components/ProfileCard.astro'
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
-<BaseLayout title="Hello, I'm Alex | AlexJustesen.com">
-	<div class="w-full max-w-lg mx-auto md:max-w-5xl">
-		<div class="grid gap-8 md:grid-cols-5 md:gap-16">
-			<div class="md:col-span-3">
-				<div class="p-8 space-y-8 bg-white shadow-lg md:px-0 shadow-gray-500/50">
-					<div class="text-4xl text-center">🙋‍♂️</div>
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-white">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
 
-					<div class="max-w-xs mx-auto">
-						<h1 class="text-3xl font-bold tracking-tight text-center text-gray-700 md:text-4xl">Hello, I'm Alex</h1>
+	<body class="h-full">
+		<!-- <Header title={SITE_TITLE} /> -->
 
-						<p class="mt-2 font-medium text-center text-gray-600 text-md md:text-lg">
-							I'm a Business Intelligence Web Engineer at MassMutual by day and a keeper of too many projects by night.
-						</p>
+		<!-- 3 column wrapper -->
+		<div class="min-h-full mx-auto max-w-7xl grow lg:flex">
+			<!-- Left sidebar & main wrapper -->
+			<div class="flex-1 xl:flex">
+				<div class="p-6 border-b border-gray-200 xl:w-80 xl:shrink-0 xl:border-b-0 xl:border-r">
+					<ProfileCard />
+				</div>
+
+				<div class="p-6 xl:flex-1">
+					<div class="pb-5 border-b border-gray-200">
+						<h2 class="text-lg font-semibold leading-6 text-gray-900">Posts</h2>
 					</div>
 
-					<div class="flex items-center justify-center space-x-3">
-						<a href="https://phpc.social/@alexjustesen" title="Mastodon" rel="me noreferrer" target="_blank" class="flex items-center px-3 py-2 text-gray-700 transition duration-300 ease-in-out bg-white border border-gray-600 hover:bg-[#6364FF] hover:border-[#563ACC] hover:text-white focus:outline-none focus:shadow-outline-gray group">
-							<svg class="w-6 h-6 text-gray-600 transition duration-300 ease-in-out group-hover:text-white" viewBox="0 0 74 79" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-								<path d="M73.7014 17.4323C72.5616 9.05152 65.1774 2.4469 56.424 1.1671C54.9472 0.950843 49.3518 0.163818 36.3901 0.163818H36.2933C23.3281 0.163818 20.5465 0.950843 19.0697 1.1671C10.56 2.41145 2.78877 8.34604 0.903306 16.826C-0.00357854 21.0022 -0.100361 25.6322 0.068112 29.8793C0.308275 35.9699 0.354874 42.0498 0.91406 48.1156C1.30064 52.1448 1.97502 56.1419 2.93215 60.0769C4.72441 67.3445 11.9795 73.3925 19.0876 75.86C26.6979 78.4332 34.8821 78.8603 42.724 77.0937C43.5866 76.8952 44.4398 76.6647 45.2833 76.4024C47.1867 75.8033 49.4199 75.1332 51.0616 73.9562C51.0841 73.9397 51.1026 73.9184 51.1156 73.8938C51.1286 73.8693 51.1359 73.8421 51.1368 73.8144V67.9366C51.1364 67.9107 51.1302 67.8852 51.1186 67.862C51.1069 67.8388 51.0902 67.8184 51.0695 67.8025C51.0489 67.7865 51.0249 67.7753 50.9994 67.7696C50.9738 67.764 50.9473 67.7641 50.9218 67.7699C45.8976 68.9569 40.7491 69.5519 35.5836 69.5425C26.694 69.5425 24.3031 65.3699 23.6184 63.6327C23.0681 62.1314 22.7186 60.5654 22.5789 58.9744C22.5775 58.9477 22.5825 58.921 22.5934 58.8965C22.6043 58.8721 22.621 58.8505 22.6419 58.8336C22.6629 58.8167 22.6876 58.8049 22.714 58.7992C22.7404 58.7934 22.7678 58.794 22.794 58.8007C27.7345 59.9796 32.799 60.5746 37.8813 60.5733C39.1036 60.5733 40.3223 60.5733 41.5447 60.5414C46.6562 60.3996 52.0437 60.1408 57.0728 59.1694C57.1983 59.1446 57.3237 59.1233 57.4313 59.0914C65.3638 57.5847 72.9128 52.8555 73.6799 40.8799C73.7086 40.4084 73.7803 35.9415 73.7803 35.4523C73.7839 33.7896 74.3216 23.6576 73.7014 17.4323ZM61.4925 47.3144H53.1514V27.107C53.1514 22.8528 51.3591 20.6832 47.7136 20.6832C43.7061 20.6832 41.6988 23.2499 41.6988 28.3194V39.3803H33.4078V28.3194C33.4078 23.2499 31.3969 20.6832 27.3894 20.6832C23.7654 20.6832 21.9552 22.8528 21.9516 27.107V47.3144H13.6176V26.4937C13.6176 22.2395 14.7157 18.8598 16.9118 16.3545C19.1772 13.8552 22.1488 12.5719 25.8373 12.5719C30.1064 12.5719 33.3325 14.1955 35.4832 17.4394L37.5587 20.8853L39.6377 17.4394C41.7884 14.1955 45.0145 12.5719 49.2765 12.5719C52.9614 12.5719 55.9329 13.8552 58.2055 16.3545C60.4017 18.8574 61.4997 22.2371 61.4997 26.4937L61.4925 47.3144Z" fill="inherit"/>
-							</svg>
-						</a>
+					<div class="mt-8 space-y-16 sm:mt-12">
+						<article class="flex flex-col items-start justify-between max-w-xl px-3 py-2 border border-transparent rounded-lg hover:bg-gray-50 hover:border-gray-300">
+							<div class="flex items-center text-xs gap-x-4">
+								<time datetime="2024-04-01" class="text-gray-500">Apr 1, 2024</time>
+								<a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Ramblings</a>
+							</div>
 
-						<a href="https://github.com/alexjustesen" title="GitHub" rel="noreferrer" target="_blank" class="flex items-center px-3 py-2 text-gray-700 transition duration-300 ease-in-out bg-white border border-gray-600 hover:bg-gray-700 hover:border-gray-800 hover:text-white focus:outline-none focus:shadow-outline-gray">
-							<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-								<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-								<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-							</svg>
-						</a>
+							<div class="relative group">
+								<h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+									<a href="#">
+										<span class="absolute inset-0"></span>
+										🤷‍♂️ It's my first post about being my first post
+									</a>
+								</h3>
 
-						<a href="https://twitter.com/alexjustesen" title="Twitter" rel="noreferrer" target="_blank" class="flex items-center px-3 py-2 text-gray-700 transition duration-300 ease-in-out bg-white border border-gray-600 hover:bg-blue-500 hover:border-blue-600 hover:text-white focus:outline-none focus:shadow-outline-blue">
-							<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-								<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-								<path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
-							</svg>
-						</a>
+								<div class="mt-5 prose-sm prose max-w-none">
+									<p>Just getting things going with the new site, so this is just a placeholder for the upcoming blog section.</p>
+									<p>The first real blog post will probably be how I create this site using AstroJS.</p>
+								</div>
+							</div>
+						</article>
 
-						<a href="https://dev.to/alexjustesen" title="Dev.to" rel="noreferrer" target="_blank" class="flex items-center px-3 py-2 font-semibold tracking-tighter text-gray-700 transition duration-300 ease-in-out bg-white border border-gray-600 hover:bg-black hover:border-black hover:text-white focus:outline-none focus:shadow-outline-blue">
-							DEV
-						</a>
-					</div>
-
-					<div class="relative">
-						<div class="absolute inset-0 flex items-center" aria-hidden="true">
-							<div class="w-full border-t border-gray-800"></div>
-						</div>
-
-						<div class="relative flex justify-center">
-							<span class="px-2 text-gray-500 bg-white">
-								📖
-							</span>
-						</div>
-					</div>
-
-					<div class="md:mx-auto md:max-w-md">
-						<h2 class="text-lg font-medium tracking-tight text-gray-700">Latest article</h2>
-						<ul class="mt-2 space-y-2 text-sm text-gray-800">
-							{articles.map(item => (
-								<ArticleComponent item={item} />
-							))}
-						</ul>
+						<!-- More posts... -->
 					</div>
 				</div>
 			</div>
 
-			<div class="px-8 pb-8 md:pb-0 md:px-0 md:col-span-2 md:flex md:items-center">
-				<div>
-					<div>
-						<h2 class="text-2xl font-semibold text-white underline md:text-3xl decoration-blue-500">Projects</h2>
-						<p class="mt-1 text-base text-gray-100 md:text-md">It seems I'm always working on something, here's a collection of the projects I'm currently focused on.</p>
-					</div>
-
-					<div class="mt-4 space-y-2 md:mt-8 md:space-y-4">
-						<div class="relative px-4 py-3 bg-white shadow-md md:px-5 md:py-4 shadow-gray-500/50 hover:shadow-blue-500/50">
-							<h3 class="text-lg font-semibold tracking-tighter text-gray-700 md:text-xl">🍻 Draught Club</h3>
-
-							<a href="https://draught.club" title="Draught Club" rel="nofollow" target="_blank" class="focus:outline-none">
-								<span class="absolute inset-0" aria-hidden="true"></span>
-							</a>
-
-							<p class="mt-1 text-sm">
-								Organize public and private beer tasting events.
-							</p>
-						</div>
-
-						<div class="relative px-4 py-3 bg-white shadow-md md:px-5 md:py-4 shadow-gray-500/50 hover:shadow-blue-500/50">
-							<h3 class="text-lg font-semibold tracking-tight text-gray-700 md:text-xl">🐇 Speedtest Tracker</h3>
-
-							<a href="https://github.com/alexjustesen/speedtest-tracker" title="Speedtest Tracker" rel="nofollow" target="_blank" class="block focus:outline-none">
-								<span class="absolute inset-0" aria-hidden="true"></span>
-							</a>
-
-							<p class="mt-1 text-sm">
-								Track your internet speed using Ookla's Speedtest service.
-							</p>
-						</div>
-
-						<div class="relative px-4 py-3 bg-white shadow-md md:px-5 md:py-4 shadow-gray-500/50 hover:shadow-blue-500/50">
-							<h3 class="text-lg font-semibold tracking-tight text-gray-700 md:text-xl">🪵 Filament Spatie Activity Log</h3>
-
-							<a href="https://github.com/alexjustesen/filament-spatie-laravel-activitylog" title="Filament Spatie Laravel Activitylog" rel="nofollow" target="_blank" class="block focus:outline-none">
-								<span class="absolute inset-0" aria-hidden="true"></span>
-							</a>
-
-							<p class="mt-1 text-sm">
-								View your Spatie Laravel activity logs inside of Filament.
-							</p>
-						</div>
-					</div>
+			<div class="p-6 border-t border-gray-200 shrink-0 lg:w-96 lg:border-l lg:border-t-0">
+				<div class="pb-5 border-b border-gray-200">
+					<h2 class="text-lg font-semibold leading-6 text-gray-900">Projects</h2>
 				</div>
+
+				<ul role="list" class="divide-y divide-gray-100">
+					<li class="relative py-5 group">
+						<div class="flex items-start gap-x-3">
+							<h3 class="text-sm font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+								<a href="https://github.com/alexjustesen/speedtest-tracker" target="_blank" rel="nofollow">
+									<span class="absolute inset-0"></span>
+									🐇 Speedtest Tracker
+								</a>
+							</h3>
+
+							<p class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">OSS</p>
+						</div>
+
+						<div class="flex items-center mt-1 text-xs leading-5 text-gray-500 gap-x-2">
+							<p class="whitespace-nowrap">Self-hosted internet performance tracking application.</p>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</div>
-	</div>
-</BaseLayout>
+
+		<!-- <Footer /> -->
+	</body>
+</html>
