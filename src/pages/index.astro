@@ -1,84 +1,74 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import ProfileCard from '../components/ProfileCard.astro'
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import Card from "../components/card.astro";
+import Chip from "../components/chip.astro";
+
+// Put all your links here
+const links: Link[] = [
+  // {
+  //   desc: "Malt Method Dev.", // The text that will be rendered
+  //   link: "https://maltmethod.dev", // The link
+  //   icon: "fa-solid fa-building", // An icon from Font Awesome: https://fontawesome.com/search?o=r&m=free
+  // },
+  {
+    desc: "Speedtest Tracker",
+    link: "https://speedtest-tracker.dev",
+    icon: "fa-solid fa-rocket",
+  },
+];
 ---
 
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-white">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content="Links of Alex Justesen" />
+    <meta name="author" content="Alex Justesen" />
+    <meta property="og:title" content="Alex Justesen" />
+    <meta property="og:image" content="favicon.ico" />
+    <meta property="og:description" content="Links of Alex Justesen" />
+    <meta property="twitter:description" content="Linktree of Alex Justesen" />
+    <meta property="twitter:title" content="Alex Justesen" />
+    <meta property="twitter:image" content="favicon.ico" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@AlexJustesen" />
+    <title>Alex Justesen (.com)</title>
+    <style>
+      @font-face {
+        font-family: Geist;
+        src: url(/Geist.ttf);
+        font-display: swap;
+      }
+    </style>
 
-	<body class="h-full">
-		<!-- <Header title={SITE_TITLE} /> -->
-
-		<!-- 3 column wrapper -->
-		<div class="min-h-full mx-auto max-w-7xl grow lg:flex">
-			<!-- Left sidebar & main wrapper -->
-			<div class="flex-1 xl:flex">
-				<div class="p-6 border-b border-gray-200 xl:w-80 xl:shrink-0 xl:border-b-0 xl:border-r">
-					<ProfileCard />
-				</div>
-
-				<div class="p-6 xl:flex-1">
-					<div class="pb-5 border-b border-gray-200">
-						<h2 class="text-lg font-semibold leading-6 text-gray-900">Posts</h2>
-					</div>
-
-					<div class="mt-8 space-y-16 sm:mt-12">
-						<article class="flex flex-col items-start justify-between max-w-xl px-3 py-2 border border-transparent rounded-lg hover:bg-gray-50 hover:border-gray-300">
-							<div class="flex items-center text-xs gap-x-4">
-								<time datetime="2024-04-01" class="text-gray-500">Apr 1, 2024</time>
-								<a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Ramblings</a>
-							</div>
-
-							<div class="relative group">
-								<h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-									<a href="#">
-										<span class="absolute inset-0"></span>
-										🤷‍♂️ It's my first post about being my first post
-									</a>
-								</h3>
-
-								<div class="mt-5 prose-sm prose max-w-none">
-									<p>Just getting things going with the new site, so this is just a placeholder for the upcoming blog section.</p>
-									<p>The first real blog post will probably be how I create this site using AstroJS.</p>
-								</div>
-							</div>
-						</article>
-
-						<!-- More posts... -->
-					</div>
-				</div>
-			</div>
-
-			<div class="p-6 border-t border-gray-200 shrink-0 lg:w-96 lg:border-l lg:border-t-0">
-				<div class="pb-5 border-b border-gray-200">
-					<h2 class="text-lg font-semibold leading-6 text-gray-900">Projects</h2>
-				</div>
-
-				<ul role="list" class="divide-y divide-gray-100">
-					<li class="relative py-5 group">
-						<div class="flex items-start gap-x-3">
-							<h3 class="text-sm font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-								<a href="https://github.com/alexjustesen/speedtest-tracker" target="_blank" rel="nofollow">
-									<span class="absolute inset-0"></span>
-									🐇 Speedtest Tracker
-								</a>
-							</h3>
-
-							<p class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">OSS</p>
-						</div>
-
-						<div class="flex items-center mt-1 text-xs leading-5 text-gray-500 gap-x-2">
-							<p class="whitespace-nowrap">Self-hosted internet performance tracking application.</p>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-
-		<!-- <Footer /> -->
-	</body>
+    <script src="https://cdn.usefathom.com/script.js" data-site="PGXVWVKB" defer is:inline></script>
+  </head>
+  <body
+    class="bg-[#1e1e1e] flex justify-center items-center w-screen h-screen font-[Geist] text-white"
+  >
+    <main class="w-[80%] flex flex-col gap-8">
+      <h1 class="md:text-6xl text-4xl font-black text-center">Alex Justesen</h1>
+      <div class="grid justify-center gap-4">
+        {
+          links.map(({ desc, link, icon }) => {
+            return <Card {desc} {link} {icon} />;
+          })
+        }
+      </div>
+      <div class="flex justify-center gap-8">
+        <!-- Put some social links who have a definitive icon here: -->
+        <Chip link="github.com/alexjustesen" icon="fa-brands fa-github" />
+        <Chip link="x.com/alexjustesen" icon="fa-brands fa-x-twitter" />
+      </div>
+      <p class="text-center mx-auto hidden">Some additional text, like your email</p>
+    </main>
+  </body>
 </html>
