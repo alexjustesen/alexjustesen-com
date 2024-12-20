@@ -5,6 +5,6 @@ interface Props {
 }
 const { link, icon } = Astro.props;
 ---
-<a href={link} target="_blank" aria-label="link" class="text-3xl">
+<a href={link} target="_blank" aria-label="link" class="text-3xl" rel="noopener noreferrer">
     <i class={icon}></i>
 </a>
