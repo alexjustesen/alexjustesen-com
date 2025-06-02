@@ -1,0 +1,27 @@
+---
+// Components
+import Analytics from "../components/Analytics.astro";
+
+// Styles
+import "./src/styles/global.css";
+---
+
+<html lang="en" class="bg-zinc-100">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+
+        <link rel="sitemap" href="/sitemap-index.xml" />
+
+		<title>AlexJustesen.com</title>
+
+		{import.meta.env.PROD && (
+			<Analytics />
+		)}
+	</head>
+	<body class="bg-zinc-100 text-zinc-950">
+		<slot />
+	</body>
+</html>

@@ -4,17 +4,15 @@
   "version": "3.0.0",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/tailwind": "^6.0.2",
-    "@tailwindcss/typography": "^0.5.15",
-    "astro": "^5.8.0",
-    "prettier-plugin-tailwindcss": "^0.5.11",
-    "tailwindcss": "^3.4.17"
+    "@astrojs/sitemap": "^3.4.0",
+    "@tailwindcss/vite": "^4.1.8",
+    "astro": "^5.8.1",
+    "octokit": "^5.0.3",
+    "tailwindcss": "^4.1.8"
   }
 }
