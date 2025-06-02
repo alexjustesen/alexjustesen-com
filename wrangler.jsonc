@@ -1,8 +1,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "alexjustesen-app",
+  "main": "./dist/_worker.js/index.js",
   "compatibility_date": "2025-06-01",
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
+    "binding": "ASSETS",
     "directory": "./dist"
+  },
+  "observability": {
+    "enabled": true
   }
 }
