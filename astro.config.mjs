@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   adapter: cloudflare(),
   integrations: [sitemap()],
+  output: 'server',
   site: 'https://alexjustesen.com',
   vite: {
     plugins: [tailwindcss()]
