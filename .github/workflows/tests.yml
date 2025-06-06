@@ -1,4 +1,4 @@
-name: tests
+name: Tests
 
 on:
   workflow_dispatch:
@@ -6,13 +6,8 @@ on:
     branches: [ develop, main ]
 
 jobs:
-  ci:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-24.04]
-        node: [22]
+  lint-app:
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout 🛎
@@ -21,7 +16,28 @@ jobs:
       - name: Setup node env 🏗
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 22
+          cache: npm
+          check-latest: true
+
+      - name: Install dependencies 👨🏻‍💻
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Lint code 🔍
+        run: npx prettier --check src/
+
+  build-app:
+    needs: lint-app
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v4
+
+      - name: Setup node env 🏗
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
           cache: npm
           check-latest: true
 
