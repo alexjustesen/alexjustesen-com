@@ -1,7 +1,4 @@
 ---
-// Components
-import Analytics from "../components/Analytics.astro";
-
 // Styles
 import "../styles/global.css";
 ---
@@ -18,7 +15,7 @@ import "../styles/global.css";
 		<title>AlexJustesen.com</title>
 
 		{import.meta.env.PROD && (
-			<Analytics />
+			<script src="https://cdn.usefathom.com/script.js" data-site="PGXVWVKB" defer is:inline></script>
 		)}
 	</head>
 	<body class="bg-zinc-100 text-zinc-950">
