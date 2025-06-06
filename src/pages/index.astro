@@ -1,21 +1,21 @@
 ---
 // Components
-import PageLayout from "../layouts/PageLayout.astro"
+import PageLayout from "../layouts/PageLayout.astro";
 import RepoCard from "../components/GitHub/RepoCard.astro";
 ---
 
 <PageLayout>
-	<h1>The new Alex Justesen.com (WIP)</h1>
+    <h1>The new Alex Justesen.com (WIP)</h1>
 
-	<div class="max-w-5xl mx-auto px-4 lg:px-8">
-		<div class="border-b border-zinc-200 pb-5">
-			<h3 class="text-base font-semibold">GitHub Projects</h3>
-		</div>
+    <div class="mx-auto max-w-5xl px-4 lg:px-8">
+        <div class="border-b border-zinc-200 pb-5">
+            <h3 class="text-base font-semibold">GitHub Projects</h3>
+        </div>
 
-		<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 mt-5">
-			<RepoCard owner="alexjustesen" repo="alexjustesen-com" />
-			<RepoCard owner="alexjustesen" repo="speedtest-tracker" />
-			<RepoCard owner="openbrewerydb" repo="openbrewerydb-laravel-api" />
-		</div>
-	</div>
+        <div class="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
+            <RepoCard owner="alexjustesen" repo="alexjustesen-com" />
+            <RepoCard owner="alexjustesen" repo="speedtest-tracker" />
+            <RepoCard owner="openbrewerydb" repo="openbrewerydb-laravel-api" />
+        </div>
+    </div>
 </PageLayout>
