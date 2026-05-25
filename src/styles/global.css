@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-bg: oklch(14% 0 0);
+  --color-fg: oklch(96% 0 0);
+  --color-muted: oklch(65% 0 0);
+  --color-border: oklch(28% 0 0);
+  --color-accent: oklch(78% 0.13 210);
+}
+
+html,
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}

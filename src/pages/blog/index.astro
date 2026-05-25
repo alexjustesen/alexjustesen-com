@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Terminal from '../../components/Terminal.astro';
+import Whoami from '../../components/Whoami.astro';
+import { getCollection } from 'astro:content';
+
+export const prerender = true;
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+
+<Layout title="~/blog">
+  <Whoami />
+
+  <Terminal prompt="ls -lt ~/blog">
+    {
+      posts.length === 0 ? (
+        <p class="text-[var(--color-muted)]">No posts yet.</p>
+      ) : (
+        <ul class="space-y-4">
+          {posts.map((post) => (
+            <li>
+              <a
+                href={`/blog/${post.id}`}
+                data-event={`Post: ${post.data.title}`}
+                class="text-[var(--color-accent)] underline-offset-4 hover:underline"
+              >
+                {post.data.title}
+              </a>
+              <div class="text-xs text-[var(--color-muted)]">{fmtDate(post.data.pubDate)}</div>
+              <p class="text-[var(--color-muted)]">{post.data.description}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <p class="mt-6">
+      <a
+        href="/"
+        data-event="Nav: Home"
+        class="text-[var(--color-accent)] underline-offset-4 hover:underline"
+        >cd ~ <span class="text-[var(--color-muted)]">(back home)</span> &rarr;</a
+      >
+    </p>
+  </Terminal>
+</Layout>

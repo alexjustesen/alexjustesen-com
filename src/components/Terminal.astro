@@ -1,0 +1,18 @@
+---
+interface Props {
+  prompt: string;
+}
+
+const { prompt } = Astro.props;
+---
+
+<section class="mb-8 rounded-md border border-[var(--color-border)] bg-black/20">
+  <header
+    class="border-b border-[var(--color-border)] px-4 py-2 text-sm text-[var(--color-muted)]"
+  >
+    <span class="text-[var(--color-accent)]">$</span>{' '}<span>{prompt}</span>
+  </header>
+  <div class="px-4 py-4 text-sm leading-relaxed">
+    <slot />
+  </div>
+</section>

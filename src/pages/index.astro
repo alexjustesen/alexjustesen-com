@@ -1,0 +1,114 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Terminal from '../components/Terminal.astro';
+import Whoami from '../components/Whoami.astro';
+import { getCollection } from 'astro:content';
+
+export const prerender = true;
+
+const projects = await getCollection('projects');
+const sortedProjects = projects.sort((a, b) => b.data.stars - a.data.stars);
+
+const allPosts = await getCollection('blog');
+const recentPosts = allPosts
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3);
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+
+<Layout>
+  <Whoami />
+
+  <Terminal prompt="cat hire-me.txt">
+    <p class="mb-2">
+      Available for contract work through
+      <a
+        href="https://maltmethod.dev"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-event="Hire Me: Malt Method (inline)"
+        class="text-[var(--color-accent)] underline-offset-4 hover:underline"
+        >Malt Method Development LLC</a
+      >.
+    </p>
+    <p class="text-[var(--color-muted)]">
+      Specializing in the Laravel ecosystem &mdash; web applications for small and medium
+      businesses.
+    </p>
+    <p class="mt-3">
+      <a
+        href="https://maltmethod.dev"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-event="Hire Me: Malt Method (cta)"
+        class="text-[var(--color-accent)] underline-offset-4 hover:underline"
+        >maltmethod.dev &rarr;</a
+      >
+    </p>
+  </Terminal>
+
+  <Terminal prompt="ls projects/">
+    {
+      sortedProjects.length === 0 ? (
+        <p class="text-[var(--color-muted)]">No projects to show.</p>
+      ) : (
+        <ul class="space-y-2">
+          {sortedProjects.map((repo) => (
+            <li>
+              <a
+                href={repo.data.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-event={`Project: ${repo.data.name}`}
+                class="text-[var(--color-accent)] underline-offset-4 hover:underline"
+              >
+                {repo.data.name}
+              </a>
+              {repo.data.description && (
+                <span class="text-[var(--color-muted)]"> &mdash; {repo.data.description}</span>
+              )}
+              <div class="text-xs text-[var(--color-muted)]">
+                &#9733; {repo.data.stars}
+                {repo.data.language && <> &middot; {repo.data.language}</>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </Terminal>
+
+  <Terminal prompt="ls blog/ | head -3">
+    {
+      recentPosts.length === 0 ? (
+        <p class="text-[var(--color-muted)]">No posts yet.</p>
+      ) : (
+        <ul class="space-y-3">
+          {recentPosts.map((post) => (
+            <li>
+              <a
+                href={`/blog/${post.id}`}
+                data-event={`Post: ${post.data.title}`}
+                class="text-[var(--color-accent)] underline-offset-4 hover:underline"
+              >
+                {post.data.title}
+              </a>
+              <div class="text-xs text-[var(--color-muted)]">{fmtDate(post.data.pubDate)}</div>
+              <p class="text-[var(--color-muted)]">{post.data.description}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <p class="mt-4">
+      <a
+        href="/blog"
+        data-event="Nav: Blog index"
+        class="text-[var(--color-accent)] underline-offset-4 hover:underline"
+        >cd ../blog <span class="text-[var(--color-muted)]">(read all posts)</span> &rarr;</a
+      >
+    </p>
+  </Terminal>
+</Layout>
