@@ -1,8 +1,28 @@
-import { defineConfig } from 'astro/config';
+// @ts-check
+import { defineConfig, fontProviders } from 'astro/config';
 
-import tailwind from "@astrojs/tailwind";
+import cloudflare from '@astrojs/cloudflare';
+
+import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind()]
+  output: 'server',
+  adapter: cloudflare(),
+
+  fonts: [
+    {
+      name: 'JetBrains Mono',
+      cssVariable: '--font-jetbrains-mono',
+      provider: fontProviders.fontsource(),
+      weights: [400, 500, 700],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+    },
+  ],
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

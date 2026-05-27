@@ -1,47 +1,81 @@
-# Astro Starter Kit: Minimal
+# alexjustesen.com
+
+Personal website built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com), and deployed to [Cloudflare Workers](https://developers.cloudflare.com/workers/).
+
+## Stack
+
+- **Astro 6** — server-rendered (`output: 'server'`) via the [`@astrojs/cloudflare`](https://docs.astro.build/en/guides/integrations-guide/cloudflare/) adapter
+- **Tailwind CSS v4** — installed as the [`@tailwindcss/vite`](https://tailwindcss.com/docs/installation/framework-guides/astro) plugin (CSS-first config)
+- **TypeScript** — Astro's `strict` preset
+- **Cloudflare Workers** — runtime in dev (via Astro 6's workerd integration) and in production
+
+## Prerequisites
+
+- Node.js 22.12+ (`.nvmrc` is set to `22` — run `nvm use`)
+- npm
+- A [Cloudflare account](https://dash.cloudflare.com) (only required for deploys)
+
+## Install
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## Develop
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm run dev
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Starts the Astro dev server. Open the printed URL (default: <http://localhost:4321>).
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Build
 
-Any static assets, like images, can be placed in the `public/` directory.
+```sh
+npm run build
+```
 
-## 🧞 Commands
+Outputs the Worker bundle and static assets to `dist/`.
 
-All commands are run from the root of the project, from a terminal:
+## Preview (production build, locally)
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```sh
+npm run preview
+```
 
-## 👀 Want to learn more?
+Runs `wrangler dev` against `dist/`, serving the built Worker on the same `workerd` runtime that Cloudflare uses in production.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Deploy
+
+### Option A — Cloudflare Git integration (preferred)
+
+Connect the repo once in the Cloudflare dashboard and every push to `main` deploys automatically:
+
+1. Go to **Workers & Pages → Create application → Import a repository**.
+2. Authorize Cloudflare for this GitHub repo and select it.
+3. Set the build settings:
+   - **Build command:** `npm run build`
+   - **Deploy command:** `npx wrangler deploy`
+4. Save. Cloudflare will run the first build and deploy on completion.
+
+### Option B — Manual deploy from your machine
+
+```sh
+npx wrangler login   # one-time
+npm run deploy
+```
+
+This builds and pushes the Worker (and its static assets) using the settings in `wrangler.jsonc`.
+
+## Project layout
+
+```
+.
+├── astro.config.mjs    # Astro + Cloudflare adapter + Tailwind Vite plugin
+├── wrangler.jsonc      # Cloudflare Workers config
+├── public/             # Static assets copied as-is
+└── src/
+    ├── pages/          # Routes (file-based)
+    └── styles/
+        └── global.css  # `@import "tailwindcss";` — extend with `@theme` here
+```

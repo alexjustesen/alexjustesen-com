@@ -1,0 +1,60 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'alex justesen — ~/',
+  description = 'Personal site of Alex Justesen — software engineer.',
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <Font cssVariable="--font-jetbrains-mono" preload />
+    <script src="https://cdn.usefathom.com/script.js" data-site="PGXVWVKB" defer is:inline></script>
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen">
+    <main class="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
+      <slot />
+    </main>
+    <script is:inline>
+      (function () {
+        var host = window.location.hostname;
+        document.addEventListener('click', function (e) {
+          var link = e.target instanceof Element ? e.target.closest('a[href]') : null;
+          if (!link) return;
+          var fathom = window.fathom;
+          if (!fathom || typeof fathom.trackEvent !== 'function') return;
+
+          var name = link.getAttribute('data-event');
+          if (!name) {
+            try {
+              var url = new URL(link.href, window.location.href);
+              if (url.protocol === 'mailto:' || url.protocol === 'tel:') {
+                name = url.protocol.replace(':', '') + ': ' + url.pathname;
+              } else if (url.hostname && url.hostname !== host) {
+                name = 'Outbound: ' + url.hostname;
+              } else {
+                name = 'Internal: ' + (url.pathname || '/');
+              }
+            } catch (err) {
+              return;
+            }
+          }
+          fathom.trackEvent(name);
+        });
+      })();
+    </script>
+  </body>
+</html>

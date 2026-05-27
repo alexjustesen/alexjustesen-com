@@ -1,0 +1,16 @@
+{
+	"compatibility_date": "2026-05-25",
+	"compatibility_flags": ["global_fetch_strictly_public"],
+	"name": "alexjustesen-com",
+	"main": "@astrojs/cloudflare/entrypoints/server",
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS"
+	},
+	"kv_namespaces": [
+		{ "binding": "SESSION", "id": "cb7402479f90457e91f3ca144edc9d6c" }
+	],
+	"observability": {
+		"enabled": true
+	}
+}

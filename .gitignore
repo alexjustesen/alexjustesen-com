@@ -2,9 +2,14 @@
 dist/
 # generated types
 .astro/
+worker-configuration.d.ts
 
 # dependencies
 node_modules/
+
+# wrangler
+.wrangler/
+.dev.vars
 
 # logs
 npm-debug.log*
@@ -19,3 +24,6 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# jetbrains setting folder
+.idea/
