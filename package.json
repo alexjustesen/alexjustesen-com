@@ -6,15 +6,21 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "preview": "npm run build && wrangler dev",
+    "astro": "astro",
+    "deploy": "npm run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
+    "@astrojs/cloudflare": "12",
     "@astrojs/tailwind": "^6.0.2",
     "@tailwindcss/typography": "^0.5.15",
     "astro": "^5.8.0",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "wrangler": "^4.95.0"
   }
 }
