@@ -10,9 +10,6 @@
 	"kv_namespaces": [
 		{ "binding": "SESSION", "id": "cb7402479f90457e91f3ca144edc9d6c" }
 	],
-	"images": {
-		"binding": "IMAGES"
-	},
 	"observability": {
 		"enabled": true
 	}
