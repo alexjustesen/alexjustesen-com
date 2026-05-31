@@ -1,0 +1,68 @@
+---
+import Terminal from './Terminal.astro';
+---
+
+<Terminal prompt="cat profile">
+  <img
+    src="/images/profile.webp"
+    alt="Alex Justesen"
+    width="640"
+    height="640"
+    loading="lazy"
+    decoding="async"
+    class="mb-4 w-full rounded-md border border-[var(--color-border)]"
+  />
+  <p class="mb-2">
+    <span class="text-[var(--color-accent)]">alex justesen</span> &mdash; software engineer.
+  </p>
+  <p class="mb-3 text-[var(--color-muted)]">
+    I build things for the web, occasionally write about it, and drink good beer.
+  </p>
+  <ul class="flex flex-wrap gap-x-4 gap-y-1 text-[var(--color-muted)]">
+    <li>
+      <a
+        href="https://github.com/alexjustesen"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-event="Social: GitHub"
+        class="text-[var(--color-accent)] underline-offset-4 hover:underline">github</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://www.linkedin.com/in/alexander-justesen/"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-event="Social: LinkedIn"
+        class="text-[var(--color-accent)] underline-offset-4 hover:underline">linkedin</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://bsky.app/profile/alexjustesen.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-event="Social: Bluesky"
+        class="text-[var(--color-accent)] underline-offset-4 hover:underline">bluesky</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://x.com/alexjustesen"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-event="Social: X"
+        class="text-[var(--color-accent)] underline-offset-4 hover:underline">x</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://untappd.com/user/ajustesen"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-event="Social: Untappd"
+        class="text-[var(--color-accent)] underline-offset-4 hover:underline">untappd</a
+      >
+    </li>
+  </ul>
+</Terminal>

@@ -5,11 +5,13 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  wide?: boolean;
 }
 
 const {
   title = 'alex justesen — ~/',
   description = 'Personal site of Alex Justesen — software engineer.',
+  wide = false,
 } = Astro.props;
 ---
 
@@ -25,7 +27,12 @@ const {
     <title>{title}</title>
   </head>
   <body class="min-h-screen">
-    <main class="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
+    <main
+      class:list={[
+        'mx-auto px-4 py-12 sm:px-6 sm:py-16',
+        wide ? 'max-w-5xl' : 'max-w-3xl',
+      ]}
+    >
       <slot />
     </main>
     <script is:inline>

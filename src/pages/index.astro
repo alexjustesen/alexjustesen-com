@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Terminal from '../components/Terminal.astro';
-import Whoami from '../components/Whoami.astro';
+import ProfileCard from '../components/ProfileCard.astro';
 import { getCollection } from 'astro:content';
 
 export const prerender = true;
@@ -18,10 +18,16 @@ const fmtDate = (d: Date) =>
   d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 ---
 
-<Layout>
-  <Whoami />
+<Layout wide>
+  <div class="grid gap-x-8 lg:grid-cols-3">
+    <aside class="lg:col-span-1">
+      <div class="lg:sticky lg:top-16">
+        <ProfileCard />
+      </div>
+    </aside>
 
-  <Terminal prompt="cat hire-me.txt">
+    <div class="lg:col-span-2">
+      <Terminal prompt="cat hire-me.txt">
     <p class="mb-2">
       Available for contract work through
       <a
@@ -108,7 +114,9 @@ const fmtDate = (d: Date) =>
         data-event="Nav: Blog index"
         class="text-[var(--color-accent)] underline-offset-4 hover:underline"
         >cd ../blog <span class="text-[var(--color-muted)]">(read all posts)</span> &rarr;</a
-      >
-    </p>
-  </Terminal>
+        >
+      </p>
+    </Terminal>
+    </div>
+  </div>
 </Layout>
