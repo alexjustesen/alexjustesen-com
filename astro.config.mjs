@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  adapter: cloudflare(),
+  adapter: cloudflare({ prerenderEnvironment: 'node' }),
 
   fonts: [
     {
@@ -23,6 +23,20 @@ export default defineConfig({
   ],
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      {
+        name: 'debug-config',
+        enforce: 'post',
+        configResolved(config) {
+          if (config.build?.ssr) {
+            console.log('SSR config resolved. input:', config.build.rollupOptions?.input);
+            console.log('SSR config resolved. ssr:', config.build.ssr);
+            console.log('SSR config resolved. outDir:', config.build.outDir);
+            console.log('SSR plugins:', config.plugins.map(p => p.name).filter(n => n.includes('cloudflare')));
+          }
+        }
+      },
+    ],
   },
 });
