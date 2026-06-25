@@ -1,8 +1,8 @@
 {
 	"compatibility_date": "2026-05-25",
-	"compatibility_flags": ["global_fetch_strictly_public"],
+	"compatibility_flags": ["global_fetch_strictly_public", "nodejs_compat"],
 	"name": "alexjustesen-com",
-	"main": "@astrojs/cloudflare/entrypoints/server",
+	"main": "./dist/_worker.js/index.js",
 	"assets": {
 		"directory": "./dist",
 		"binding": "ASSETS"
