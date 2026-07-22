@@ -14,6 +14,15 @@ const recentPosts = allPosts
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
   .slice(0, 3);
 
+const apiEndpoints = [
+  {
+    method: 'GET',
+    path: '/api/profile',
+    description: 'Returns profile data as a JSON:API document.',
+    command: 'curl https://alexjustesen.com/api/profile',
+  },
+];
+
 const fmtDate = (d: Date) =>
   d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 ---
@@ -117,6 +126,62 @@ const fmtDate = (d: Date) =>
         >
       </p>
     </Terminal>
+
+    <Terminal prompt="ls api/">
+      <ul class="space-y-5">
+        {apiEndpoints.map((endpoint) => (
+          <li>
+            <div class="mb-2 flex flex-wrap items-baseline gap-x-2">
+              <span class="text-xs text-[var(--color-accent)]">{endpoint.method}</span>
+              <a
+                href={endpoint.path}
+                data-event={`API: ${endpoint.path}`}
+                class="text-[var(--color-accent)] underline-offset-4 hover:underline"
+              >
+                {endpoint.path}
+              </a>
+              <span class="text-[var(--color-muted)]">&mdash; {endpoint.description}</span>
+            </div>
+            <div class="overflow-hidden rounded-md border border-[var(--color-border)] bg-black/20">
+              <div
+                class="flex items-center justify-between border-b border-[var(--color-border)] px-3 py-1 text-xs"
+              >
+                <span class="text-[var(--color-muted)]">curl</span>
+                <button
+                  type="button"
+                  data-copy-command={endpoint.command}
+                  aria-label={`Copy curl command for ${endpoint.path}`}
+                  class="text-[var(--color-muted)] underline-offset-4 hover:text-[var(--color-accent)] hover:underline"
+                >
+                  copy
+                </button>
+              </div>
+              <pre class="overflow-x-auto px-3 py-3 text-xs text-[var(--color-muted)]"><code>{endpoint.command}</code></pre>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </Terminal>
     </div>
   </div>
+
+  <script>
+    const copyButtons = document.querySelectorAll<HTMLButtonElement>('[data-copy-command]');
+
+    for (const button of copyButtons) {
+      button.addEventListener('click', async () => {
+        const command = button.dataset.copyCommand;
+        if (!command) return;
+
+        try {
+          await navigator.clipboard.writeText(command);
+          button.textContent = 'copied';
+        } catch {
+          button.textContent = 'failed';
+        }
+
+        setTimeout(() => (button.textContent = 'copy'), 2000);
+      });
+    }
+  </script>
 </Layout>
