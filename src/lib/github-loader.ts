@@ -28,6 +28,12 @@ export function githubReposLoader(): Loader {
       pushedAt: z.coerce.date(),
     }),
     async load({ store, logger }) {
+      for (const slug of repoSlugs) {
+        if (!/^[a-z\d][a-z\d-]*\/[a-z\d_.-]+$/i.test(slug)) {
+          throw new Error(`github-loader: expected owner/repo, received "${slug}"`);
+        }
+      }
+
       store.clear();
 
       const headers: Record<string, string> = {
