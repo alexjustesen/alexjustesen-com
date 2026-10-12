@@ -48,7 +48,10 @@ const socialImage = new URL(profile.image, Astro.site);
       <meta property="article:published_time" content={publishedTime.toISOString()} />
     )}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <Font cssVariable="--font-jetbrains-mono" preload />
+    <Font
+      cssVariable="--font-jetbrains-mono"
+      preload={[{ weight: 400, style: 'normal', subset: 'latin' }]}
+    />
     <script src="https://cdn.usefathom.com/script.js" data-site="PGXVWVKB" defer is:inline></script>
     <title>{title}</title>
   </head>
