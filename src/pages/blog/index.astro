@@ -4,8 +4,6 @@ import Terminal from '../../components/Terminal.astro';
 import Whoami from '../../components/Whoami.astro';
 import { getCollection } from 'astro:content';
 
-export const prerender = true;
-
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );

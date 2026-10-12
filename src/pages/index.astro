@@ -4,8 +4,6 @@ import Terminal from '../components/Terminal.astro';
 import ProfileCard from '../components/ProfileCard.astro';
 import { getCollection } from 'astro:content';
 
-export const prerender = true;
-
 const projects = await getCollection('projects');
 const sortedProjects = projects.sort((a, b) => b.data.stars - a.data.stars);
 
