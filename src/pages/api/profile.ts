@@ -1,25 +1,20 @@
 import type { APIRoute } from 'astro';
+import { profile } from '../../data/profile';
 
 // Cloudflare's static response header is configured in public/_headers.
-export const GET: APIRoute = () => {
+export const GET: APIRoute = ({ site }) => {
   const body = {
     jsonapi: { version: '1.1' },
-    links: { self: 'https://alexjustesen.com/api/profile' },
+    links: { self: new URL('/api/profile', site).href },
     data: {
       type: 'profile',
-      id: 'alex-justesen',
+      id: profile.id,
       attributes: {
-        name: 'alex justesen',
-        role: 'software engineer',
-        bio: 'I build things for the web, occasionally write about it, and drink good beer.',
-        image: 'https://alexjustesen.com/images/profile.webp',
-        socials: [
-          { name: 'github', url: 'https://github.com/alexjustesen' },
-          { name: 'linkedin', url: 'https://www.linkedin.com/in/alexander-justesen/' },
-          { name: 'bluesky', url: 'https://bsky.app/profile/alexjustesen.com' },
-          { name: 'x', url: 'https://x.com/alexjustesen' },
-          { name: 'untappd', url: 'https://untappd.com/user/ajustesen' },
-        ],
+        name: profile.name,
+        role: profile.role,
+        bio: profile.bio,
+        image: new URL(profile.image, site).href,
+        socials: profile.socials.map(({ name, url }) => ({ name, url })),
       },
     },
   };
