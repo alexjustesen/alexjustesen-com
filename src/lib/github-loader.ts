@@ -14,7 +14,7 @@ const githubRepoSchema = z.object({
   pushed_at: z.string(),
 });
 
-export function githubReposLoader(): Loader {
+export function githubReposLoader() {
   return {
     name: 'github-repos-loader',
     schema: z.object({
@@ -84,5 +84,5 @@ export function githubReposLoader(): Loader {
       for (const entry of entries) store.set(entry);
       logger.info(`Loaded ${entries.length} GitHub repositories.`);
     },
-  };
+  } satisfies Loader;
 }
