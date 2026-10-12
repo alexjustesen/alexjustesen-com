@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 
+// Cloudflare's static response header is configured in public/_headers.
 export const prerender = true;
 
 export const GET: APIRoute = () => {
