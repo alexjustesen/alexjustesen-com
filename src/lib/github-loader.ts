@@ -2,17 +2,17 @@ import type { Loader } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { repoSlugs } from '../content/projects/repos';
 
-interface GitHubRepoResponse {
-  id: number;
-  name: string;
-  full_name: string;
-  html_url: string;
-  description: string | null;
-  language: string | null;
-  stargazers_count: number;
-  forks_count: number;
-  pushed_at: string;
-}
+const githubRepoSchema = z.object({
+  id: z.number().int().positive(),
+  name: z.string(),
+  full_name: z.string(),
+  html_url: z.string().url(),
+  description: z.string().nullable(),
+  language: z.string().nullable(),
+  stargazers_count: z.number().int().nonnegative(),
+  forks_count: z.number().int().nonnegative(),
+  pushed_at: z.string(),
+});
 
 export function githubReposLoader(): Loader {
   return {
@@ -34,8 +34,6 @@ export function githubReposLoader(): Loader {
         }
       }
 
-      store.clear();
-
       const headers: Record<string, string> = {
         'User-Agent': 'alexjustesen-com-build',
         Accept: 'application/vnd.github+json',
@@ -43,14 +41,20 @@ export function githubReposLoader(): Loader {
       const token = process.env.GITHUB_TOKEN;
       if (token) headers.Authorization = `Bearer ${token}`;
 
+      // Fail the build rather than deploy an incomplete project list. Keep the
+      // previous store intact until every response has been fetched and parsed.
+      const entries: Parameters<typeof store.set>[0][] = [];
+
       for (const slug of repoSlugs) {
         try {
-          const res = await fetch(`https://api.github.com/repos/${slug}`, { headers });
+          const res = await fetch(`https://api.github.com/repos/${slug}`, {
+            headers,
+            signal: AbortSignal.timeout(10_000),
+          });
           if (!res.ok) {
-            logger.warn(`github-loader: ${slug} -> HTTP ${res.status}, skipping`);
-            continue;
+            throw new Error(`HTTP ${res.status}`);
           }
-          const repo = (await res.json()) as GitHubRepoResponse;
+          const repo = githubRepoSchema.parse(await res.json());
           const id = String(repo.id);
           const data = await parseData({
             id,
@@ -65,15 +69,20 @@ export function githubReposLoader(): Loader {
               pushedAt: repo.pushed_at,
             },
           });
-          store.set({
+          entries.push({
             id,
             data,
             digest: generateDigest(data),
           });
         } catch (err) {
-          logger.warn(`github-loader: ${slug} threw ${(err as Error).message}, skipping`);
+          const message = err instanceof Error ? err.message : String(err);
+          throw new Error(`github-loader: failed to load ${slug}: ${message}`, { cause: err });
         }
       }
+
+      store.clear();
+      for (const entry of entries) store.set(entry);
+      logger.info(`Loaded ${entries.length} GitHub repositories.`);
     },
   };
 }
