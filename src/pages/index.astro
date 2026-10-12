@@ -142,7 +142,7 @@ const fmtDate = (d: Date) =>
               </a>
               <span class="text-[var(--color-muted)]">&mdash; {endpoint.description}</span>
             </div>
-            <div class="overflow-hidden rounded-md border border-[var(--color-border)] bg-black/20">
+            <div data-copy-container class="overflow-hidden rounded-md border border-[var(--color-border)] bg-black/20">
               <div
                 class="flex items-center justify-between border-b border-[var(--color-border)] px-3 py-1 text-xs"
               >
@@ -151,12 +151,13 @@ const fmtDate = (d: Date) =>
                   type="button"
                   data-copy-command={endpoint.command}
                   aria-label={`Copy curl command for ${endpoint.path}`}
-                  class="text-[var(--color-muted)] underline-offset-4 hover:text-[var(--color-accent)] hover:underline"
+                  class="text-[var(--color-muted)] underline-offset-4 hover:text-[var(--color-accent)] hover:underline disabled:cursor-wait disabled:opacity-50"
                 >
                   copy
                 </button>
               </div>
               <pre class="overflow-x-auto px-3 py-3 text-xs text-[var(--color-muted)]"><code>{endpoint.command}</code></pre>
+              <span data-copy-status role="status" aria-live="polite" aria-atomic="true" class="sr-only"></span>
             </div>
           </li>
         ))}
@@ -166,22 +167,8 @@ const fmtDate = (d: Date) =>
   </div>
 
   <script>
-    const copyButtons = document.querySelectorAll<HTMLButtonElement>('[data-copy-command]');
+    import { initializeCopyButtons } from '../scripts/copy-command';
 
-    for (const button of copyButtons) {
-      button.addEventListener('click', async () => {
-        const command = button.dataset.copyCommand;
-        if (!command) return;
-
-        try {
-          await navigator.clipboard.writeText(command);
-          button.textContent = 'copied';
-        } catch {
-          button.textContent = 'failed';
-        }
-
-        setTimeout(() => (button.textContent = 'copy'), 2000);
-      });
-    }
+    initializeCopyButtons();
   </script>
 </Layout>
