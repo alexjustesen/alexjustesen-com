@@ -1,5 +1,5 @@
 import type { Loader } from 'astro/loaders';
-import { z } from 'astro:content';
+import { z } from 'astro/zod';
 import { repoSlugs } from '../content/projects/repos';
 
 interface GitHubRepoResponse {
@@ -27,7 +27,7 @@ export function githubReposLoader(): Loader {
       forks: z.number().int().nonnegative(),
       pushedAt: z.coerce.date(),
     }),
-    async load({ store, logger }) {
+    async load({ store, logger, parseData, generateDigest }) {
       for (const slug of repoSlugs) {
         if (!/^[a-z\d][a-z\d-]*\/[a-z\d_.-]+$/i.test(slug)) {
           throw new Error(`github-loader: expected owner/repo, received "${slug}"`);
@@ -51,8 +51,9 @@ export function githubReposLoader(): Loader {
             continue;
           }
           const repo = (await res.json()) as GitHubRepoResponse;
-          store.set({
-            id: String(repo.id),
+          const id = String(repo.id);
+          const data = await parseData({
+            id,
             data: {
               name: repo.name,
               fullName: repo.full_name,
@@ -63,6 +64,11 @@ export function githubReposLoader(): Loader {
               forks: repo.forks_count,
               pushedAt: repo.pushed_at,
             },
+          });
+          store.set({
+            id,
+            data,
+            digest: generateDigest(data),
           });
         } catch (err) {
           logger.warn(`github-loader: ${slug} threw ${(err as Error).message}, skipping`);
