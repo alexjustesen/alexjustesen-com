@@ -1,16 +1,23 @@
 ---
 interface Props {
   prompt: string;
+  heading?: string;
 }
 
-const { prompt } = Astro.props;
+const { prompt, heading } = Astro.props;
+const Heading = heading ? 'h2' : 'div';
 ---
 
-<section class="mb-8 rounded-md border border-[var(--color-border)] bg-black/20">
+<section aria-label={heading} class="mb-8 rounded-md border border-[var(--color-border)] bg-black/20">
   <header
     class="border-b border-[var(--color-border)] px-4 py-2 text-sm text-[var(--color-muted)]"
   >
-    <span class="text-[var(--color-accent)]">$</span>{' '}<span>{prompt}</span>
+    <Heading class="font-normal">
+      <span aria-hidden={heading ? 'true' : undefined}>
+        <span class="text-[var(--color-accent)]">$</span>{' '}<span>{prompt}</span>
+      </span>
+      {heading && <span class="sr-only">{heading}</span>}
+    </Heading>
   </header>
   <div class="px-4 py-4 text-sm leading-relaxed">
     <slot />

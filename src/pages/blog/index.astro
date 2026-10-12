@@ -13,9 +13,10 @@ const fmtDate = (d: Date) =>
 ---
 
 <Layout title="~/blog — alex justesen" description="Writing about software engineering and building things for the web by Alex Justesen.">
+  <h1 class="sr-only">Blog</h1>
   <Whoami />
 
-  <Terminal prompt="ls -lt ~/blog">
+  <Terminal prompt="ls -lt ~/blog" heading="All blog posts">
     {
       posts.length === 0 ? (
         <p class="text-[var(--color-muted)]">No posts yet.</p>
