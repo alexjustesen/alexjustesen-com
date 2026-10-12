@@ -17,6 +17,10 @@ body {
   font-family: var(--font-mono);
 }
 
+a {
+  text-decoration-line: underline;
+}
+
 ::selection {
   background-color: var(--color-accent);
   color: var(--color-bg);
