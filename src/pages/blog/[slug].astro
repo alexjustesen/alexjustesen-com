@@ -17,7 +17,12 @@ const { Content } = await render(post);
 const isoDate = post.data.pubDate.toISOString().slice(0, 10);
 ---
 
-<Layout title={`${post.data.title} — ~/blog`} description={post.data.description}>
+<Layout
+  title={`${post.data.title} — ~/blog`}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate}
+>
   <Terminal prompt={`cat ~/blog/${post.id}.md`}>
     <div class="mb-6 text-xs leading-relaxed text-[var(--color-muted)]">
       <div class="text-[var(--color-accent)]">---</div>
