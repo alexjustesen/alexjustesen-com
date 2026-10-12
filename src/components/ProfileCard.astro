@@ -1,16 +1,21 @@
 ---
 import Terminal from './Terminal.astro';
+import { Image } from 'astro:assets';
+import profilePhoto from '../images/20260527_alex_profile_photo.png';
 ---
 
 <Terminal prompt="cat profile" heading="Profile">
-  <img
-    src="/images/profile.webp"
+  <Image
+    src={profilePhoto}
     alt="Alex Justesen"
-    width="640"
-    height="640"
-    loading="lazy"
-    decoding="async"
-    class="mb-4 w-full rounded-md border border-[var(--color-border)]"
+    width={640}
+    height={640}
+    layout="full-width"
+    widths={[270, 540, 640, 960, 1254]}
+    sizes="(min-width: 1024px) 270px, (min-width: 640px) calc(100vw - 82px), calc(100vw - 66px)"
+    format="webp"
+    priority
+    class="mb-4 h-auto w-full rounded-md border border-[var(--color-border)]"
   />
   <p class="mb-2">
     <span class="text-[var(--color-accent)]">alex justesen</span> &mdash; software engineer.

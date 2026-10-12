@@ -10,7 +10,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://alexjustesen.com',
   output: 'static',
-  adapter: cloudflare(),
+  adapter: cloudflare({ imageService: 'compile' }),
   session: false,
   integrations: [sitemap()],
 
