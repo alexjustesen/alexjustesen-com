@@ -10,7 +10,7 @@
     "check": "astro check",
     "test": "vitest run",
     "build": "npm run check && astro build",
-    "preview": "wrangler dev",
+    "preview": "astro preview",
     "deploy": "npm run build && wrangler deploy",
     "astro": "astro",
     "generate-types": "wrangler types"
