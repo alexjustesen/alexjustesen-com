@@ -6,7 +6,7 @@ const githubRepoSchema = z.object({
   id: z.number().int().positive(),
   name: z.string(),
   full_name: z.string(),
-  html_url: z.string().url(),
+  html_url: z.url(),
   description: z.string().nullable(),
   language: z.string().nullable(),
   stargazers_count: z.number().int().nonnegative(),
@@ -20,7 +20,7 @@ export function githubReposLoader() {
     schema: z.object({
       name: z.string(),
       fullName: z.string(),
-      url: z.string().url(),
+      url: z.url(),
       description: z.string().nullable(),
       language: z.string().nullable(),
       stars: z.number().int().nonnegative(),
