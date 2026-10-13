@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Terminal from '../components/Terminal.astro';
+import { uses } from '../data/uses';
+
+const updatedDate = new Date(`${uses.updated}T00:00:00Z`).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<Layout
+  title="~/uses — alex justesen"
+  description="Alex Justesen's hardware, development setup, and AI tools, with Laravel and Astro as primary frameworks for shipping applications."
+>
+  <header class="mb-8">
+    <h1 class="mb-3 text-2xl font-semibold">Uses</h1>
+    <p class="mb-3 text-sm leading-relaxed text-[var(--color-muted)]">
+      The hardware, software, and tools I use to build things for the web.
+    </p>
+    <p class="text-xs text-[var(--color-muted)]">
+      Last updated: <time datetime={uses.updated}>{updatedDate}</time>
+    </p>
+  </header>
+
+  {uses.categories.map((category) => (
+    <Terminal prompt={`cat uses/${category.id}.txt`} heading={category.title}>
+      <dl class="space-y-5">
+        {category.items.map((item) => (
+          <div>
+            <dt class="mb-1">
+              {item.url ? (
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-event={`Uses: ${item.name}`}
+                  class="text-[var(--color-accent)] underline-offset-4 hover:underline"
+                >
+                  {item.name}
+                </a>
+              ) : item.name}
+            </dt>
+            <dd class="text-[var(--color-muted)]">{item.description}</dd>
+          </div>
+        ))}
+      </dl>
+    </Terminal>
+  ))}
+
+  <nav aria-label="Back to home" class="mt-6 text-sm">
+    <a
+      href="/"
+      data-event="Nav: Home"
+      class="text-[var(--color-accent)] underline-offset-4 hover:underline"
+    >
+      cd ~ <span class="text-[var(--color-muted)]">(back home)</span> &rarr;
+    </a>
+  </nav>
+</Layout>

@@ -15,6 +15,7 @@ Personal website built with [Astro](https://astro.build), [Tailwind CSS](https:/
 - **Content collections** — Blog posts from local Markdown (`src/content/blog/`) and projects fetched from GitHub at build time; both require a rebuild to publish updates
 - **Custom GitHub loader** — `src/lib/github-loader.ts` validates repo metadata before storing it; requests time out after 10 seconds, and any fetch/validation failure fails the build instead of publishing a partial list
 - **Shared profile data** — `src/data/profile.ts` supplies profile details and social links to the page components and API
+- **Uses page** — `/uses` lists hardware, development software, tools, and AI agents from `src/data/uses.ts`, with a manually maintained update date
 - **JSON:API profile endpoint** — `GET /api/profile` is prerendered; `public/_headers` preserves its `application/vnd.api+json` media type on Cloudflare, and `public/_redirects` normalizes trailing-slash requests
 - **Typography** — JetBrains Mono loaded via `fontProviders.fontsource()`; only the body weight is preloaded
 - **Images** — the homepage photo uses responsive, prioritized WebP images generated at build time; `/images/profile.webp` remains a stable public URL for the API and social cards
@@ -58,11 +59,47 @@ npm test
 
 Type checking covers Astro components and TypeScript. Tests cover GitHub loader validation/failures, the profile API representation, and clipboard feedback without making network requests. Content synchronization during `check` and `build` does contact GitHub.
 
+## Branch workflow and protection
+
+`develop` is the default development branch and allows direct commits. Promote a release by opening a PR from `develop` to `main` and merging with a **merge commit**, then tag the resulting `main` commit with a `v*` release tag to trigger the Cloudflare deploy hook. Merge commits preserve shared ancestry; squash and rebase merges are not used for this workflow.
+
+A normal `develop` → `main` release does not require merging `main` back into `develop`. If fixes are made separately on a `release/*` or `hotfix/*` branch, merge that branch into both `main` and `develop` so development includes those fixes.
+
+Importable GitHub branch rulesets are versioned in `.github/rulesets/`:
+
+| Protection | `main.json` | `develop.json` |
+|------------|-------------|----------------|
+| Block branch deletion and force pushes | Yes | Yes |
+| Require a pull request | Yes | No; direct commits allowed |
+| Allowed PR merge methods | Merge commit only | Controlled by repository merge settings |
+| Required CI check | `Tests and build` from GitHub Actions | None |
+| Require resolved PR conversations | Yes | No |
+| General required approvals | Zero (supports solo maintenance) | None |
+| Require code-owner review | Yes | No; review requests only |
+| Dismiss stale approvals after new changes | Yes | No |
+| Require linear history | No | No |
+| Bypass actors | None | None |
+
+The CI workflow in `.github/workflows/ci.yml` runs tests and the production build (including type checking) on pushes to `develop` and PRs targeting `main` or `develop`. Failed CI does not block direct pushes to `develop`, but it blocks merging a PR into `main`. The required check does not demand that the source branch contain the latest `main` merge commit, so normal releases can remain one-way promotions. CI does not deploy the site.
+
+`.github/CODEOWNERS` assigns every file to `@alexjustesen`, including the ownership file and workflows. GitHub automatically requests Alex's review on other authors' non-draft PRs, including fork contributions, using the CODEOWNERS file on the PR's target branch. PRs into `main` require code-owner approval, and new reviewable changes dismiss stale approvals. PRs into `develop` request review but do not enforce approval, preserving direct commits. This applies to contributors as well as outside contributors, not only first-time contributors. General required approvals remain zero; do not raise this to one for solo maintenance, since GitHub does not allow authors to approve their own PRs.
+
+### Import into GitHub
+
+1. Commit and push the rulesets, CODEOWNERS file, and CI workflow to `develop`. Keep `develop` as the default branch; these JSON files do not create branches or change the default.
+2. Under **Settings → General → Pull Requests**, enable **Allow merge commits** and disable **Allow squash merging** and **Allow rebase merging**. Repository settings are separate from ruleset imports; leaving merge commits disabled would block all PR merges into `main`.
+3. Under **Settings → Rules → Rulesets → New ruleset → Import a ruleset**, import `.github/rulesets/develop.json` and `.github/rulesets/main.json` separately. Both are active immediately and apply to explicit branch names, not whichever branch is currently the default. They have no bypass actors, including for administrators.
+4. Open a release PR from `develop` to `main` and confirm that `Tests and build` runs and passes before merging. Do not import the required-check ruleset before the CI workflow is available, or PRs may be blocked waiting for a check that never runs. Code-owner review requests and enforcement on `main` start only once CODEOWNERS has been merged into `main`; the initial PR adding it uses the existing target-branch ownership configuration.
+
+Committing a template does not apply it to GitHub. Subsequent template changes must also be applied to the existing GitHub ruleset; importing again creates another ruleset rather than updating the existing one. Keep the CI job name and the required status-check context in `main.json` in sync.
+
 ## Content
 
 Add project repositories to `src/content/projects/repos.ts` using `owner/repo`, not full URLs. The project list is a build-time snapshot, including star counts.
 
 No blog posts are included yet. Create `src/content/blog/` when adding your first Markdown post, with `title`, `pubDate`, and `description` frontmatter; `tags` is optional. Keep IDs/slugs to one path segment for the current `[slug].astro` route. Until posts exist, the blog intentionally shows an empty state and Astro may report empty-collection warnings.
+
+Maintain the `/uses` page in `src/data/uses.ts`. Each category has a unique `id`, a `title`, and items with a `name`, `description`, and optional official `url`. Update `updated` manually using `YYYY-MM-DD` when the setup changes, then rebuild to publish. The date represents a content update, not the latest build.
 
 ## Preview (production build, locally)
 
@@ -129,8 +166,9 @@ This builds and pushes the Worker (and its static assets) using the settings in 
     │   └── projects/
     │       └── repos.ts     # List of GitHub repo slugs for the custom loader
     ├── content.config.ts    # Astro content collections (blog + projects)
-    ├── data/
-    │   └── profile.ts       # Shared profile details and social links
+     ├── data/
+     │   ├── profile.ts       # Shared profile details and social links
+     │   └── uses.ts          # Uses categories, items, and manual update date
     ├── images/              # Image assets
     ├── layouts/             # Page layouts (Layout.astro)
     ├── lib/
@@ -139,7 +177,8 @@ This builds and pushes the Worker (and its static assets) using the settings in 
     │   ├── api/
     │   │   └── profile.ts   # JSON:API profile endpoint
     │   ├── blog/            # Blog post routes
-    │   └── index.astro      # Homepage
+     │   ├── index.astro      # Homepage
+     │   └── uses.astro       # Hardware, development setup, and tools
     ├── scripts/             # Browser behavior (clipboard feedback)
     └── styles/
         └── global.css       # `@import "tailwindcss";` + custom `@theme` block
