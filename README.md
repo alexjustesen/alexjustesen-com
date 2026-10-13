@@ -58,6 +58,36 @@ npm test
 
 Type checking covers Astro components and TypeScript. Tests cover GitHub loader validation/failures, the profile API representation, and clipboard feedback without making network requests. Content synchronization during `check` and `build` does contact GitHub.
 
+## Branch workflow and protection
+
+`develop` is the default development branch and allows direct commits. Promote a release by opening a PR from `develop` to `main` and merging with a **merge commit**, then tag the resulting `main` commit with a `v*` release tag to trigger the Cloudflare deploy hook. Merge commits preserve shared ancestry; squash and rebase merges are not used for this workflow.
+
+A normal `develop` → `main` release does not require merging `main` back into `develop`. If fixes are made separately on a `release/*` or `hotfix/*` branch, merge that branch into both `main` and `develop` so development includes those fixes.
+
+Importable GitHub branch rulesets are versioned in `.github/rulesets/`:
+
+| Protection | `main.json` | `develop.json` |
+|------------|-------------|----------------|
+| Block branch deletion and force pushes | Yes | Yes |
+| Require a pull request | Yes | No; direct commits allowed |
+| Allowed PR merge methods | Merge commit only | Controlled by repository merge settings |
+| Required CI check | `Tests and build` from GitHub Actions | None |
+| Require resolved PR conversations | Yes | No |
+| Required approvals | Zero (supports solo maintenance) | None |
+| Require linear history | No | No |
+| Bypass actors | None | None |
+
+The CI workflow in `.github/workflows/ci.yml` runs tests and the production build (including type checking) on pushes to `develop` and PRs targeting `main` or `develop`. Failed CI does not block direct pushes to `develop`, but it blocks merging a PR into `main`. The required check does not demand that the source branch contain the latest `main` merge commit, so normal releases can remain one-way promotions. CI does not deploy the site.
+
+### Import into GitHub
+
+1. Commit and push the rulesets and CI workflow to `develop`. Keep `develop` as the default branch; these JSON files do not create branches or change the default.
+2. Under **Settings → General → Pull Requests**, enable **Allow merge commits** and disable **Allow squash merging** and **Allow rebase merging**. Repository settings are separate from ruleset imports; leaving merge commits disabled would block all PR merges into `main`.
+3. Under **Settings → Rules → Rulesets → New ruleset → Import a ruleset**, import `.github/rulesets/develop.json` and `.github/rulesets/main.json` separately. Both are active immediately and apply to explicit branch names, not whichever branch is currently the default. They have no bypass actors, including for administrators.
+4. Open a release PR from `develop` to `main` and confirm that `Tests and build` runs and passes before merging. Do not import the required-check ruleset before the CI workflow is available, or PRs may be blocked waiting for a check that never runs.
+
+Committing a template does not apply it to GitHub. Subsequent template changes must also be applied to the existing GitHub ruleset; importing again creates another ruleset rather than updating the existing one. Keep the CI job name and the required status-check context in `main.json` in sync.
+
 ## Content
 
 Add project repositories to `src/content/projects/repos.ts` using `owner/repo`, not full URLs. The project list is a build-time snapshot, including star counts.
