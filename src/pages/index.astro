@@ -95,6 +95,21 @@ const fmtDate = (d: Date) =>
     }
   </Terminal>
 
+  <Terminal prompt="cat uses.txt" heading="My setup">
+    <p class="text-[var(--color-muted)]">
+      The hardware, software, and tools I use to build things for the web.
+    </p>
+    <p class="mt-3">
+      <a
+        href="/uses"
+        data-event="Nav: Uses"
+        class="text-[var(--color-accent)] underline-offset-4 hover:underline"
+      >
+        cd uses <span class="text-[var(--color-muted)]">(explore my setup)</span> &rarr;
+      </a>
+    </p>
+  </Terminal>
+
   <Terminal prompt="ls blog/ | head -3" heading="Recent blog posts">
     {
       recentPosts.length === 0 ? (

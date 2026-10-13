@@ -15,6 +15,7 @@ Personal website built with [Astro](https://astro.build), [Tailwind CSS](https:/
 - **Content collections** — Blog posts from local Markdown (`src/content/blog/`) and projects fetched from GitHub at build time; both require a rebuild to publish updates
 - **Custom GitHub loader** — `src/lib/github-loader.ts` validates repo metadata before storing it; requests time out after 10 seconds, and any fetch/validation failure fails the build instead of publishing a partial list
 - **Shared profile data** — `src/data/profile.ts` supplies profile details and social links to the page components and API
+- **Uses page** — `/uses` lists hardware, development software, tools, and AI agents from `src/data/uses.ts`, with a manually maintained update date
 - **JSON:API profile endpoint** — `GET /api/profile` is prerendered; `public/_headers` preserves its `application/vnd.api+json` media type on Cloudflare, and `public/_redirects` normalizes trailing-slash requests
 - **Typography** — JetBrains Mono loaded via `fontProviders.fontsource()`; only the body weight is preloaded
 - **Images** — the homepage photo uses responsive, prioritized WebP images generated at build time; `/images/profile.webp` remains a stable public URL for the API and social cards
@@ -98,6 +99,8 @@ Add project repositories to `src/content/projects/repos.ts` using `owner/repo`, 
 
 No blog posts are included yet. Create `src/content/blog/` when adding your first Markdown post, with `title`, `pubDate`, and `description` frontmatter; `tags` is optional. Keep IDs/slugs to one path segment for the current `[slug].astro` route. Until posts exist, the blog intentionally shows an empty state and Astro may report empty-collection warnings.
 
+Maintain the `/uses` page in `src/data/uses.ts`. Each category has a unique `id`, a `title`, and items with a `name`, `description`, and optional official `url`. Update `updated` manually using `YYYY-MM-DD` when the setup changes, then rebuild to publish. The date represents a content update, not the latest build.
+
 ## Preview (production build, locally)
 
 ```sh
@@ -163,8 +166,9 @@ This builds and pushes the Worker (and its static assets) using the settings in 
     │   └── projects/
     │       └── repos.ts     # List of GitHub repo slugs for the custom loader
     ├── content.config.ts    # Astro content collections (blog + projects)
-    ├── data/
-    │   └── profile.ts       # Shared profile details and social links
+     ├── data/
+     │   ├── profile.ts       # Shared profile details and social links
+     │   └── uses.ts          # Uses categories, items, and manual update date
     ├── images/              # Image assets
     ├── layouts/             # Page layouts (Layout.astro)
     ├── lib/
@@ -173,7 +177,8 @@ This builds and pushes the Worker (and its static assets) using the settings in 
     │   ├── api/
     │   │   └── profile.ts   # JSON:API profile endpoint
     │   ├── blog/            # Blog post routes
-    │   └── index.astro      # Homepage
+     │   ├── index.astro      # Homepage
+     │   └── uses.astro       # Hardware, development setup, and tools
     ├── scripts/             # Browser behavior (clipboard feedback)
     └── styles/
         └── global.css       # `@import "tailwindcss";` + custom `@theme` block
