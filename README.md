@@ -75,16 +75,21 @@ Runs the Cloudflare adapter's `astro preview` on the same `workerd` runtime that
 
 ## Deploy
 
-### Option A — Cloudflare Git integration (preferred)
+### Option A — GitHub Actions deploy hook (preferred)
 
-Connect the repo once in the Cloudflare dashboard and every push to `main` deploys automatically:
+The workflow in `.github/workflows/deploy.yml` calls a Cloudflare deploy hook only when a release tag matching `v*` (for example, `v4.3.0`) is pushed. Branch pushes and manual workflow runs do not trigger it. Cloudflare handles the build and deployment; GitHub Actions only sends the request.
 
 1. Go to **Workers & Pages → Create application → Import a repository**.
 2. Authorize Cloudflare for this GitHub repo and select it.
 3. Set the build settings:
    - **Build command:** `npm run build`
    - **Deploy command:** `npx wrangler deploy`
-4. Save. Cloudflare will run the first build and deploy on completion.
+4. Create a Cloudflare deploy hook targeting `main` and save its URL as the GitHub repository Actions secret **`DEPLOY_HOOK`**.
+5. Disable Cloudflare's automatic push-based deployment trigger for `main` when using this workflow, so ordinary branch pushes do not deploy the site.
+
+The deploy hook builds its configured branch (`main`), not the triggering tag's commit. Merge release changes into `main` before tagging, and be aware that later changes to `main` may be included if the hook builds after those changes land.
+
+The workflow requires an HTTPS hook URL, fails on unsuccessful HTTP responses, and does not retry requests or log the hook URL/response body. Production hook calls are serialized. A successful workflow means Cloudflare accepted the request, not that the build finished successfully; check Cloudflare Builds for the final result.
 
 > **Note:** For higher GitHub API rate limits, add `GITHUB_TOKEN` to the **Workers Builds build variables/secrets**, not only the deployed Worker's runtime secrets. The loader runs in the build process and reads `process.env.GITHUB_TOKEN`. Repository metadata is published publicly on the site, so only configure repositories you intend to display.
 

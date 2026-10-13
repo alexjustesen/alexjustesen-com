@@ -1,0 +1,39 @@
+name: Deploy
+
+on:
+  push:
+    tags: ['v*']
+
+permissions: {}
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Trigger Cloudflare deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Call deploy hook
+        env:
+          DEPLOY_HOOK: ${{ secrets.DEPLOY_HOOK }}
+        shell: bash
+        run: |
+          if [[ -z "$DEPLOY_HOOK" ]]; then
+            echo '::error::The DEPLOY_HOOK repository secret is not configured.'
+            exit 1
+          fi
+
+          status="$(curl --fail --silent --show-error \
+            --output /dev/null --write-out '%{http_code}' \
+            --connect-timeout 10 --max-time 30 \
+            --proto '=https' --request POST "$DEPLOY_HOOK")"
+
+          if [[ "$status" != 2* ]]; then
+            echo "::error::The deploy hook returned HTTP $status."
+            exit 1
+          fi
+
+          echo 'Cloudflare accepted the deployment request. Check Cloudflare Builds for the result.'
