@@ -73,18 +73,22 @@ Importable GitHub branch rulesets are versioned in `.github/rulesets/`:
 | Allowed PR merge methods | Merge commit only | Controlled by repository merge settings |
 | Required CI check | `Tests and build` from GitHub Actions | None |
 | Require resolved PR conversations | Yes | No |
-| Required approvals | Zero (supports solo maintenance) | None |
+| General required approvals | Zero (supports solo maintenance) | None |
+| Require code-owner review | Yes | No; review requests only |
+| Dismiss stale approvals after new changes | Yes | No |
 | Require linear history | No | No |
 | Bypass actors | None | None |
 
 The CI workflow in `.github/workflows/ci.yml` runs tests and the production build (including type checking) on pushes to `develop` and PRs targeting `main` or `develop`. Failed CI does not block direct pushes to `develop`, but it blocks merging a PR into `main`. The required check does not demand that the source branch contain the latest `main` merge commit, so normal releases can remain one-way promotions. CI does not deploy the site.
 
+`.github/CODEOWNERS` assigns every file to `@alexjustesen`, including the ownership file and workflows. GitHub automatically requests Alex's review on other authors' non-draft PRs, including fork contributions, using the CODEOWNERS file on the PR's target branch. PRs into `main` require code-owner approval, and new reviewable changes dismiss stale approvals. PRs into `develop` request review but do not enforce approval, preserving direct commits. This applies to contributors as well as outside contributors, not only first-time contributors. General required approvals remain zero; do not raise this to one for solo maintenance, since GitHub does not allow authors to approve their own PRs.
+
 ### Import into GitHub
 
-1. Commit and push the rulesets and CI workflow to `develop`. Keep `develop` as the default branch; these JSON files do not create branches or change the default.
+1. Commit and push the rulesets, CODEOWNERS file, and CI workflow to `develop`. Keep `develop` as the default branch; these JSON files do not create branches or change the default.
 2. Under **Settings → General → Pull Requests**, enable **Allow merge commits** and disable **Allow squash merging** and **Allow rebase merging**. Repository settings are separate from ruleset imports; leaving merge commits disabled would block all PR merges into `main`.
 3. Under **Settings → Rules → Rulesets → New ruleset → Import a ruleset**, import `.github/rulesets/develop.json` and `.github/rulesets/main.json` separately. Both are active immediately and apply to explicit branch names, not whichever branch is currently the default. They have no bypass actors, including for administrators.
-4. Open a release PR from `develop` to `main` and confirm that `Tests and build` runs and passes before merging. Do not import the required-check ruleset before the CI workflow is available, or PRs may be blocked waiting for a check that never runs.
+4. Open a release PR from `develop` to `main` and confirm that `Tests and build` runs and passes before merging. Do not import the required-check ruleset before the CI workflow is available, or PRs may be blocked waiting for a check that never runs. Code-owner review requests and enforcement on `main` start only once CODEOWNERS has been merged into `main`; the initial PR adding it uses the existing target-branch ownership configuration.
 
 Committing a template does not apply it to GitHub. Subsequent template changes must also be applied to the existing GitHub ruleset; importing again creates another ruleset rather than updating the existing one. Keep the CI job name and the required status-check context in `main.json` in sync.
 
