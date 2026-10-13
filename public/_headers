@@ -1,6 +1,3 @@
 # Prerendered endpoints are served as static assets by Cloudflare.
 /api/profile
   Content-Type: application/vnd.api+json
-
-/api/profile/
-  Content-Type: application/vnd.api+json

@@ -15,7 +15,7 @@ Personal website built with [Astro](https://astro.build), [Tailwind CSS](https:/
 - **Content collections** — Blog posts from local Markdown (`src/content/blog/`) and projects fetched from GitHub at build time; both require a rebuild to publish updates
 - **Custom GitHub loader** — `src/lib/github-loader.ts` validates repo metadata before storing it; requests time out after 10 seconds, and any fetch/validation failure fails the build instead of publishing a partial list
 - **Shared profile data** — `src/data/profile.ts` supplies profile details and social links to the page components and API
-- **JSON:API profile endpoint** — `GET /api/profile` is prerendered; `public/_headers` preserves its `application/vnd.api+json` media type on Cloudflare
+- **JSON:API profile endpoint** — `GET /api/profile` is prerendered; `public/_headers` preserves its `application/vnd.api+json` media type on Cloudflare, and `public/_redirects` normalizes trailing-slash requests
 - **Typography** — JetBrains Mono loaded via `fontProviders.fontsource()`; only the body weight is preloaded
 - **Images** — the homepage photo uses responsive, prioritized WebP images generated at build time; `/images/profile.webp` remains a stable public URL for the API and social cards
 - **SEO and accessibility** — canonical URLs, social metadata, sitemap/robots files, semantic headings, and live clipboard feedback
